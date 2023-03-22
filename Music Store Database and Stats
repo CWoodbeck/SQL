@@ -1,0 +1,29 @@
+-- creat a music store database
+
+CREATE TABLE instruments (id INTEGER PRIMARY KEY, name TEXT, type TEXT, price INTEGER, quantity INTEGER);
+INSERT INTO instruments
+VALUES
+(1, "mandolin", "string", 1000, 87),
+(2, "guitar", "string", 500, 24),
+(3, "flute", "wind", 425, 12),
+(4, "ngori", "string", 495, 8),
+(5, "bongos", "percussion", 129, 7),
+(6, "key board", "electric", 652, 17),
+(7, "Saxophone", "wind", 489, 9),
+(8, "xylaphone", "percussion", 89, 17),
+(9, "cow bell", "percussion", 59, 75),
+(10, "harmonica", "wind", 64, 28),
+(11, "bass", "string", 1209, 6),
+(12, "violin", "string", 950, 22),
+(13, "banjo", "string", 899, 75),
+(14, "triangle", "percussion", 19, 7),
+(15, "ukulele", "string", 225, 14);
+
+-- display the database ordered by price
+SELECT * FROM instruments ORDER BY price desc;
+
+-- what is the price of the cheapest wind instrument? 
+SELECT MIN(price) "cheapest wind instrument price" FROM instruments WHERE type='wind';
+
+-- what instruments am i running low on ordered by quantity?
+SELECT * FROM instruments WHERE quantity <10 ORDER BY quantity asc;
