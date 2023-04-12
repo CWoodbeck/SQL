@@ -51,25 +51,26 @@ INSERT INTO solar_system_objects(body,mean_radius,mean_radius_rel,volume,volume_
 INSERT INTO solar_system_objects(body,mean_radius,mean_radius_rel,volume,volume_rel,mass,mass_rel,density,surface_gravity,surface_gravity_rel,type_of_object,shape) VALUES ('Ceres ',476.2,0.076,0.437,0.0004,0.95,0.000159,2.077,0.27,0.0275,'dwarf planet belt asteroid','round');
 SELECT * FROM solar_system_objects;
 
+-- I aggregated the data to display the minimum, maximum and average values for all the measurments--
 SELECT MIN(mean_radius) AS smallest_mean_radius, MAX(mean_radius)AS largest_mean_radius, AVG(mean_radius)AS average_mean_radius FROM solar_system_objects;
-
 SELECT MIN(volume) AS smallest_volume, MAX(volume)AS largest_volume, AVG(volume)AS average_volume FROM solar_system_objects;
-
 SELECT MIN(mass) AS smallest_mass, MAX(mass)AS largest_mass, AVG(mass)AS average_mass FROM solar_system_objects;
-
 SELECT MIN(density) AS smallest_density, MAX(density)AS largest_density, AVG(density)AS average_density FROM solar_system_objects;
-
 SELECT MIN(surface_gravity) AS lowest_surface_gravity, MAX(surface_gravity)AS highest_surface_gravity, AVG(surface_gravity)AS average_surface_gravity FROM solar_system_objects;
 
+-- I displayed the objects that have a volume greater than the earth and ordered them by volume--
 SELECT body, volume AS "volume_greater_than_earth" FROM solar_system_objects
 GROUP BY volume
 HAVING volume > 1083.21;
 
+--I displayed the objects that have a mass less than the earth and ordered them by mass--
 SELECT body, mass AS "mass_less_than_earth" FROM solar_system_objects WHERE mass < 5973.60
 GROUP BY mass;
 
+--I displayed the objects that are considered moons--
 SELECT body, type_of_object FROM solar_system_objects WHERE type_of_object LIKE "%satellite%";
 
+--I displayed the objects ordered by their surface gravity and grouped them as less than or greater than earths surface gravity--
 SELECT body, surface_gravity, 
 CASE
 WHEN surface_gravity_rel < 1 THEN "lower_than_earth"
@@ -80,6 +81,7 @@ END AS "surface_gravity_relative_to_earth"
 FROM solar_system_objects
 GROUP BY surface_gravity_rel;
 
+-- I displayed the objects and their measurments that have a density less than the moon, and a surface gravity greater than the moon, and orederd thm by their density-- 
 SELECT body, mass,density, volume, surface_gravity, type_of_object FROM solar_system_objects 
 WHERE density < 3.3464 AND surface_gravity > 1.625 
 GROUP BY density;
