@@ -1,0 +1,78 @@
+--I created multiple tables with information about musicians, where they were born, what band they are in, and what instrument they play--
+CREATE TABLE musicians (id INTEGER PRIMARY KEY, 
+name TEXT, 
+birth_place INTEGER, 
+band INTEGER,
+instrument INTEGER);
+
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Michael_Kang", 1, 1, 1);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Billy_Nershi", 2, 1, 2);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Keith_Moseley", 3, 1, 4);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Kyle_Hollingsworth", 4, 1, 3);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Michael_Travis", "NULL", 1, 5);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Drew_Emmitt", "NULL", 2, 1);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Vince_Herman", 5, 2, 2);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Trey_Anastasio", 6, 3, 2);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("JON_Fishman", 7, 3, 5);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Mike_Gordon", 8, 3, 4);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Page_McConnell", 7, 3, 3);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Jerry_Garcia", 9, 4, 2);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Bob_Weir", 9, 4, 2);
+INSERT INTO musicians (name, birth_place, band, instrument) VALUES ("Phil_Lesh", 9, 4, 4);
+
+CREATE TABLE birth_place (id INTEGER PRIMARY KEY, place TEXT);
+INSERT INTO birth_place (place) VALUES ("South_Korea");
+INSERT INTO birth_place (place) VALUES ("New_Jersey");
+INSERT INTO birth_place (place) VALUES ("Oaklahoma");
+INSERT INTO birth_place (place) VALUES ("Maryland");
+INSERT INTO birth_place (place) VALUES ("Pennsylvania");
+INSERT INTO birth_place (place) VALUES ("Texas");
+INSERT INTO birth_place (place) VALUES ("Philadelphia");
+INSERT INTO birth_place (place) VALUES ("Massachusetts");
+INSERT INTO birth_place (place) VALUES ("California");
+
+CREATE TABLE band (id INTEGER PRIMARY KEY, name TEXT);
+INSERT INTO band (name) VALUES ("String_Cheese_Incident");
+INSERT INTO band (name) VALUES ("Leftover_Salmon");
+INSERT INTO band (name) VALUES ("Phish");
+INSERT INTO band (name) VALUES ("Grateful_Dead");
+
+CREATE TABLE instrument (id INTEGER PRIMARY KEY, name TEXT);
+INSERT INTO instrument (name) VALUES ("Mandolin");
+INSERT INTO instrument (name) VALUES ("Guitar");
+INSERT INTO instrument (name) VALUES ("Keys");
+INSERT INTO instrument (name) VALUES ("Bass");
+INSERT INTO instrument (name) VALUES ("Drums");
+
+--I used inner and left outer join to join all of the tables and display the information all in one query--
+SELECT musicians.name AS musician, birth_place.place AS birth_place, band.name AS band, instrument.name AS instrument FROM musicians
+LEFT OUTER JOIN birth_place
+ON musicians.birth_place = birth_place.id
+JOIN band
+ON musicians. band = band.id
+JOIN instrument
+ON musicians.instrument = instrument.id;
+
+--I joined the instrument table with the musicians table, and the band table to display the guitar players in all the bands-- 
+SELECT instrument.name AS instrument, musicians.name AS musician,band.name AS band FROM musicians
+JOIN instrument
+ON musicians.instrument = instrument.id
+JOIN band 
+ON musicians. band = band.id
+WHERE instrument = 2;
+
+--I joined the instrument table with the band table, and the musicians table to display the bands that have a mandolin player--
+SELECT band.name AS bands_with_a_mandolin_player FROM musicians
+JOIN instrument
+ON musicians.instrument = instrument.id
+JOIN band
+ON musicians.band = band.id
+WHERE instrument = 1;
+
+--I joined the musicians table with the band table, and used a self join on the musicians table to display musicians and their band mates--
+SELECT a.name AS musician, b.name AS band_mates FROM musicians a
+JOIN band
+ON a.band = band.id
+JOIN musicians b
+ON b.band = band.id
+WHERE NOT a.name = b.name;
