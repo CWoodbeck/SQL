@@ -1,4 +1,4 @@
-#In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
+--In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. --
 
 --#1. How many orders were placed in January? --
 SELECT COUNT(orderid)
@@ -31,7 +31,7 @@ SELECT sum(quantity)*price as revenue, product
 FROM BIT_DB.JanSales
 GROUP BY product
 
---#6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?--
+--#6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue? --
 SELECT sum(Quantity), sum(quantity)*price as revenue, product
 FROM BIT_DB.FebSales 
 WHERE location = '548 Lincoln St, Seattle, WA 98101'
@@ -51,3 +51,40 @@ SELECT product, sum(quantity)
 FROM BIT_DB.FebSales
 WHERE location like'%Los Angeles%'
 GROUP BY product;
+
+--#9. Which locations in New York received at least 3 orders in January, and how many orders did they each receive? --
+SELECT distinct location, count(orderid) AS number_of_orders
+FROM BIT_DB.JanSales
+WHERE location like '%new york%'
+AND length(orderid) = 6
+AND orderid <> 'Order ID'
+GROUP BY location
+HAVING count(orderid) >=3;
+
+--#10. How many of each type of headphone were sold in February? --
+SELECT product, sum(quantity) AS quantity
+FROM BIT_DB.FebSales
+WHERE product like '%headphone%'
+GROUP BY product;
+
+--#11. What was the average amount spent per account in February? --
+SELECT sum(quantity*price)/count(cust.acctnum) AS average_spent_per_account
+FROM BIT_DB.febsales feb
+LEFT JOIN BIT_DB.customers cust
+ON feb.orderid = cust.order_id
+WHERE length(orderid) = 6
+AND orderid <> 'Order ID';
+
+--#12. What was the average quantity of products purchased per account in February? --
+SELECT sum(quantity)/count(cust.acctnum) AS average_products_purchased_per_account
+FROM BIT_DB.FebSales feb
+LEFT JOIN BIT_DB.customers cust
+ON feb.orderid=cust.order_id
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID';
+
+--#13. Which product brought in the most revenue in January and how much revenue did it bring in total? --
+SELECT sum(quantity*price) AS revenue, product
+FROM BIT_DB.JanSales
+GROUP BY product
+ORDER BY revenue DESC LIMIT 1;
