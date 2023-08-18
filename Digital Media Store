@@ -1,5 +1,5 @@
 --This Database is comprised of multiple tables from which I have retrieved information 
-reguarding customers, employees, products, and invoices reguarding digital media sales.--
+about customers, employees, products, and invoices reguarding digital media sales.--
 
 --#1 Show Customers (their full names, customer ID, and country) who are not in the US.--
 SELECT customerid, firstname, lastname, country 
